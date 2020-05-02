@@ -1,0 +1,83 @@
+#:import Factory kivy.factory.Factory
+
+<CustButton@Button>:
+    font_size: self.height//5
+
+
+<MyPopup@Popup>:
+    id: my_popup
+    title:  'Help'
+    auto_dismiss: False
+
+    BoxLayout:
+        orientation: "vertical"
+        Label:
+            font_size: '20sp'
+            text: 'A   simple    Gui    for   active   learning\n \n* Using XGBRegressor as Gold Standard Model in backend\n \n1)   Put your csv file, that contain all of your tested result, path in first part\n \n2)   Train your gold standard model by pushing train button\n \n3)    Start active learning algorithm\n*** it may take a while !'
+        Button:
+            size_hint:  (1, 0.2)
+            text:       "Dismiss"
+            on_release: my_popup.dismiss()
+
+
+<ActiveGridLayout>:
+    id: Active
+    rows: 5
+    spacing: 10
+    padding: 10
+
+    # 1 CSV File Browser
+	BoxLayout:
+	    spacing: 10
+        Label:
+            font_size: '20sp'
+            text: 'CSV File Path:'
+        TextInput:
+            id: input_1
+            font_size: 12
+            multiline: True
+        CustButton:
+            text: 'File Browser'
+            on_press: input_1.text = Active.get_path()
+        CustButton:
+            text: 'Show DF'
+            on_press: Active.visualize_dataframe(input_1.text)
+    # 2 Gold Model
+	BoxLayout:
+	    spacing: 10
+	    Label:
+	        font_size: '20sp'
+            text : 'Gold Model'
+        CustButton:
+            text: 'Train Gold Model'
+            on_press: Active.train_gold_model(input_1.text)
+    # 3 Active learning
+	BoxLayout:
+		spacing: 10
+	    Label:
+	        font_size: '20sp'
+            text : 'Active Learning\nOptions'
+        Label:
+            font_size: '20sp'
+            text : 'Steps:'
+        TextInput:
+            text: '10'
+            id: input_2
+            font_size: 32
+            multiline: False
+        CustButton:
+            text: 'Train Active\nLearning Model'
+            on_press: Active.acive_learning_main(int(input_2.text))
+    # 4 visualize active learning
+	BoxLayout:
+		spacing: 10
+        CustButton:
+            text: 'Visualize Active Learning Results'
+            on_press: Active.show_plot()
+    # 5 Help Popup
+	BoxLayout:
+		spacing: 10
+        CustButton:
+            text: 'Help'
+            on_release: Factory.MyPopup().open()
+
