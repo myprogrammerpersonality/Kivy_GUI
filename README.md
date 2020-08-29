@@ -1,2 +1,2 @@
 # Kivy_GUI
-an Active Learning platform for biology in Kivy
+Bayesian Optimization Simulator Platform for Biology in Kivy
